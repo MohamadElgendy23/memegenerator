@@ -1,5 +1,5 @@
 document.querySelector("#app").innerHTML = `
-  <div class="flex items-center justify-center flex-col">
+  <div class="flex justify-center flex-col">
     <nav class="relative flex w-full flex-wrap items-center justify-between bg-neutral-700 dark:bg-white py-2 shadow-dark-mild lg:py-4">
       <div class="flex w-full flex-wrap items-center justify-between px-3">
         <div class="ms-2">
@@ -8,7 +8,11 @@ document.querySelector("#app").innerHTML = `
         <button id="theme-toggle" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md dark:text-black">Toggle Dark Mode</button>
       </div>
     </nav>
-    <div class="flex"><h1 class="text-5xl mt-7">Meme Generator</h1></div>
+    <div class="ml-100">
+      <h1 class="text-5xl mt-15 mb-10">Meme Generator</h1>
+      <hr class="w-3/4">
+      
+    </div>
   </div>
 `;
 
