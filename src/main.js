@@ -1,11 +1,14 @@
+import "./style.css";
+import axios from "axios";
+
 document.querySelector("#app").innerHTML = `
-  <div class="flex justify-center flex-col">
-    <nav class="relative flex w-full flex-wrap items-center justify-between bg-neutral-700 dark:bg-white py-2 shadow-dark-mild lg:py-4">
+  <div class="flex justify-center flex-col dark:bg-neutral-800">
+    <nav class="relative flex w-full flex-wrap items-center justify-between dark:bg-neutral-600 bg-amber-50 py-2 shadow-dark-mild lg:py-4">
       <div class="flex w-full flex-wrap items-center justify-between px-3">
         <div class="ms-2">
           <a class="text-3xl text-black dark:text-white flex items-center gap-2" href="#"><img src="https://i.pinimg.com/originals/32/99/55/329955c23c1ccb6623866cd15036ce3f.png" alt="logo" class="w-15"></img>Meme Generator</a>
         </div>
-        <button id="theme-toggle" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md dark:text-black">Toggle Dark Mode</button>
+        <button id="theme-toggle" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-black dark:text-white">Toggle Dark Mode</button>
       </div>
     </nav>
     <div class="ml-100">
@@ -29,19 +32,20 @@ document.querySelector("#app").innerHTML = `
       <div class="mt-10">
         <h2 class="text-4xl mb-8">Create Your Own Meme</h2>
         <hr class="w-3/4">
-        <div id="memes-container" class="grid">
-
-        </div>
+        <div id="memes-container" class="grid"></div>
       </div>
     </div>
   </div>
 `;
 
 const themeToggle = document.getElementById("theme-toggle");
+const memesSelect = document.getElementById("memes-select");
+const memesContainer = document.getElementById("memes-container");
 
 themeToggle.addEventListener("click", () => {
   const html = document.documentElement;
   html.classList.toggle("dark");
+
   // change the toggle text
   themeToggle.textContent = html.classList.contains("dark")
     ? "Toggle Light Mode"
