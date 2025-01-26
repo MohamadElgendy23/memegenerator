@@ -9,17 +9,38 @@ document.querySelector("#app").innerHTML = `
       </div>
     </nav>
     <div class="ml-100">
-      <h1 class="text-5xl mt-15 mb-10">Meme Generator</h1>
+      <h1 class="text-5xl mt-15 mb-10 font-bold">Meme Generator</h1>
       <hr class="w-3/4">
-      
+      <div class="w-3/8 gap-3 mt-7">
+        <div class="gap-2 flex flex-col">
+          <label class="text-xl">Meme</label>
+          <select id="memes-select" class="p-2 rounded-sm outline-solid"></select>
+        </div>
+        <div class="gap-2 flex flex-col mt-5">
+          <label htmlFor="top-text" class="text-xl">Top Text</label>
+          <input id="top-text" type="text" placeholder="Top Text" class="p-2 rounded-sm outline-solid"></input>
+        </div>
+        <div class="gap-2 flex flex-col mt-5">
+          <label htmlFor="bottom-text" class="text-xl">Bottom Text</label>
+          <input id="bottom-text" type="text" placeholder="Bottom Text" class="p-2 rounded-sm outline-solid"></input>
+        </div>
+        <button class="bg-blue-500 text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl">Generate</button>
+      </div>
+      <div class="mt-10">
+        <h2 class="text-4xl mb-8">Create Your Own Meme</h2>
+        <hr class="w-3/4">
+        <div id="memes-container" class="grid">
+
+        </div>
+      </div>
     </div>
   </div>
 `;
 
 const themeToggle = document.getElementById("theme-toggle");
-const html = document.documentElement;
 
 themeToggle.addEventListener("click", () => {
+  const html = document.documentElement;
   html.classList.toggle("dark");
   // change the toggle text
   themeToggle.textContent = html.classList.contains("dark")
