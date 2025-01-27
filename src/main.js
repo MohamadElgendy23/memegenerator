@@ -2,7 +2,7 @@ import "./style.css";
 import axios from "axios";
 
 const baseURL = "https://api.imgflip.com";
-
+const serverURL = "https://localhost:3000/meme";
 document.querySelector("#app").innerHTML = `
   <div class="flex justify-center flex-col dark:bg-neutral-800">
     <nav class="relative flex w-full flex-wrap items-center justify-between dark:bg-neutral-600 bg-amber-50 py-2 shadow-dark-mild lg:py-4">
@@ -99,14 +99,14 @@ async function generateMeme(memeId, mode) {
     topText = "Top Text";
     bottomText = "Bottom Text";
   }
-  const response = await axios.post(`${baseURL}/caption_image`, {
+  const response = await axios.post(`${serverURL}/caption_image`, {
     template_id: memeId,
     username: "MohamadElgendy",
     password: "Solomon_23",
     text0: topText,
     text1: bottomText,
   });
-  const memeImageURL = await response.data.data.url;
+  const memeImageURL = await response.memeData;
   console.log(memeImageURL);
   memeImage.innerHTML = `<img src="${memeImageURL}"></img>`;
 }
@@ -153,11 +153,13 @@ async function initializeApp() {
 }
 
 async function searchMemes() {
-  const response = await axios.post(`${baseURL}/search_memes`, {
+  const response = await axios.post(`${serverURL}/search_memes`, {
     username: "MohamadElgendy",
     password: "Solomon_23",
     query: searchInput.value,
   });
+  const searchData = await response.searchData;
+  renderMemes(searchData);
 }
 
 async function getMemes() {
