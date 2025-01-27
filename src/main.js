@@ -1,6 +1,8 @@
 import "./style.css";
 import axios from "axios";
 
+const baseURL = "https://api.imgflip.com";
+
 document.querySelector("#app").innerHTML = `
   <div class="flex justify-center flex-col dark:bg-neutral-800">
     <nav class="relative flex w-full flex-wrap items-center justify-between dark:bg-neutral-600 bg-amber-50 py-2 shadow-dark-mild lg:py-4">
@@ -8,11 +10,11 @@ document.querySelector("#app").innerHTML = `
         <div class="ms-2">
           <a class="text-3xl text-black dark:text-white flex items-center gap-2" href="#"><img src="https://i.pinimg.com/originals/32/99/55/329955c23c1ccb6623866cd15036ce3f.png" alt="logo" class="w-15"></img>Meme Generator</a>
         </div>
-        <button id="theme-toggle" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-black dark:text-white">Toggle Dark Mode</button>
+        <button id="theme-toggle" class="bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-md text-black dark:text-white">Toggle Dark Mode</button>
       </div>
     </nav>
-    <div class="ml-100">
-      <h1 class="text-5xl mt-15 mb-10 font-bold">Meme Generator</h1>
+    <div class="ml-100 h-screen dark:text-white">
+      <h1 class="text-5xl mt-15 mb-10 font-bold dark:text-white">Meme Generator</h1>
       <hr class="w-3/4">
       <div class="w-3/8 gap-3 mt-7">
         <div class="gap-2 flex flex-col">
@@ -27,12 +29,12 @@ document.querySelector("#app").innerHTML = `
           <label htmlFor="bottom-text" class="text-xl">Bottom Text</label>
           <input id="bottom-text" type="text" placeholder="Bottom Text" class="p-2 rounded-sm outline-solid"></input>
         </div>
-        <button class="bg-blue-500 text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl">Generate</button>
+        <button class="bg-blue-500 text-black dark:text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl">Generate</button>
       </div>
       <div class="mt-10">
         <h2 class="text-4xl mb-8">Create Your Own Meme</h2>
         <hr class="w-3/4">
-        <div id="memes-container" class="grid"></div>
+        <div id="memes-container" class="grid grid-cols-10 mt-10 w-325 gap-10"></div>
       </div>
     </div>
   </div>
@@ -42,6 +44,7 @@ const themeToggle = document.getElementById("theme-toggle");
 const memesSelect = document.getElementById("memes-select");
 const memesContainer = document.getElementById("memes-container");
 
+// add event listener for theme toggle
 themeToggle.addEventListener("click", () => {
   const html = document.documentElement;
   html.classList.toggle("dark");
@@ -57,3 +60,53 @@ themeToggle.addEventListener("click", () => {
     html.classList.contains("dark") ? "dark" : "light"
   );
 });
+
+function fillSelectOptions(memeNames) {
+  memeNames.forEach((name) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = name.toLowerCase().replaceAll(" ", "");
+    optionElement.text = name;
+    memesSelect.appendChild(optionElement);
+  });
+}
+
+function renderMemes(memes) {
+  memesContainer.innerHTML = "";
+  memes.forEach((meme) => {
+    const memeAnchor = document.createElement("a");
+    memeAnchor.setAttribute(
+      "class",
+      "flex items-center flex-col justfiy-center w-30 text-center"
+    );
+    const innerMemeContainer = document.createElement("div");
+    innerMemeContainer.setAttribute(
+      "class",
+      "flex items-center flex-col justify-center"
+    );
+    const memeImage = document.createElement("img");
+    memeImage.src = meme.url;
+    memeImage.setAttribute("class", "w-100");
+    innerMemeContainer.appendChild(memeImage);
+    const memeNameContainer = document.createElement("div");
+    memeNameContainer.innerHTML = meme.name;
+    memeNameContainer.setAttribute("class", "text-blue-400 mt-3 text-xl");
+    memeAnchor.append(innerMemeContainer, memeNameContainer);
+    memesContainer.appendChild(memeAnchor);
+  });
+}
+
+function initializeApp() {
+  getMemes().then((memes) => {
+    fillSelectOptions(memes.map((meme) => meme.name));
+    renderMemes(memes);
+  });
+}
+
+async function getMemes() {
+  const response = await axios.get(`${baseURL}/get_memes`);
+  const memes = await response.data.data.memes;
+  console.log(memes);
+  return memes;
+}
+
+initializeApp();
