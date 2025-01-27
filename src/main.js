@@ -14,7 +14,10 @@ document.querySelector("#app").innerHTML = `
       </div>
     </nav>
     <div class="ml-100 h-screen dark:text-white">
-      <h1 class="text-5xl mt-15 mb-10 font-bold dark:text-white">Meme Generator</h1>
+      <div class="flex items-center justify-between w-3/4">
+        <h1 class="text-5xl mt-15 mb-10 font-bold dark:text-white">Meme Generator</h1>
+        <input id="search-input" type="text" class="p-2 rounded-sm outline-solid text-sm" placeholder="Search meme..."></input>
+      </div>
       <hr class="w-3/4">
       <div class="flex items-center gap-3">
         <div class="w-3/8 gap-3 mt-7">
@@ -46,6 +49,7 @@ document.querySelector("#app").innerHTML = `
 
 // useful variables
 const themeToggle = document.getElementById("theme-toggle");
+const searchInput = document.getElementById("search-input");
 const memesSelect = document.getElementById("memes-select");
 const topTextInput = document.getElementById("top-text");
 const bottomTextInput = document.getElementById("bottom-text");
@@ -146,6 +150,14 @@ async function initializeApp() {
     renderMemes(memes);
   });
   await generateMeme(181913649, "generate"); // initial meme
+}
+
+async function searchMemes() {
+  const response = await axios.post(`${baseURL}/search_memes`, {
+    username: "MohamadElgendy",
+    password: "Solomon_23",
+    query: searchInput.value,
+  });
 }
 
 async function getMemes() {
