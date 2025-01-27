@@ -32,7 +32,7 @@ document.querySelector("#app").innerHTML = `
           </div>
           <button class="bg-blue-500 text-black dark:text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl cursor-pointer" id="generate-btn">Generate</button>
         </div>
-        <div class="meme-image">
+        <div id="meme-image" class="flex flex-col justify-center items-center">
         </div>
       </div>
       <div class="mt-10">
