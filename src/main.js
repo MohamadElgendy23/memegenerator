@@ -23,18 +23,18 @@ document.querySelector("#app").innerHTML = `
         </div>
         <div class="gap-2 flex flex-col mt-5">
           <label htmlFor="top-text" class="text-xl">Top Text</label>
-          <input id="top-text" type="text" placeholder="Top Text" class="p-2 rounded-sm outline-solid"></input>
+          <input id="top-text" type="text" value="Top Text" class="p-2 rounded-sm outline-solid"></input>
         </div>
         <div class="gap-2 flex flex-col mt-5">
           <label htmlFor="bottom-text" class="text-xl">Bottom Text</label>
-          <input id="bottom-text" type="text" placeholder="Bottom Text" class="p-2 rounded-sm outline-solid"></input>
+          <input id="bottom-text" type="text" value="Bottom Text" class="p-2 rounded-sm outline-solid"></input>
         </div>
-        <button class="bg-blue-500 text-black dark:text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl">Generate</button>
+        <button class="bg-blue-500 text-black dark:text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl" id="generate-btn">Generate</button>
       </div>
       <div class="mt-10">
         <h2 class="text-4xl mb-8">Create Your Own Meme</h2>
         <hr class="w-3/4">
-        <div id="memes-container" class="grid grid-cols-10 mt-10 w-325 gap-10"></div>
+        <div id="memes-container" class="grid grid-cols-10 mt-10 w-350 gap-10"></div>
       </div>
     </div>
   </div>
@@ -42,6 +42,7 @@ document.querySelector("#app").innerHTML = `
 
 const themeToggle = document.getElementById("theme-toggle");
 const memesSelect = document.getElementById("memes-select");
+const generateBtn = document.getElementById("generate-btn");
 const memesContainer = document.getElementById("memes-container");
 
 // add event listener for theme toggle
@@ -61,23 +62,28 @@ themeToggle.addEventListener("click", () => {
   );
 });
 
+generateBtn.addEventListener("click", createMeme);
+
 function fillSelectOptions(memeNames) {
   memeNames.forEach((name) => {
     const optionElement = document.createElement("option");
-    optionElement.value = name.toLowerCase().replaceAll(" ", "");
+    optionElement.value = name.toLowerCase().replaceAll(" ", ""); // make value the lowercase and space stripped version of name
     optionElement.text = name;
     memesSelect.appendChild(optionElement);
   });
 }
 
+function createMeme() {}
+
 function renderMemes(memes) {
   memesContainer.innerHTML = "";
   memes.forEach((meme) => {
-    const memeAnchor = document.createElement("a");
-    memeAnchor.setAttribute(
+    const memeContainer = document.createElement("div");
+    memeContainer.setAttribute(
       "class",
-      "flex items-center flex-col justfiy-center w-30 text-center"
+      "flex items-center flex-col justfiy-center w-30 text-center cursor-pointer"
     );
+    memeContainer.addEventListener("click", createMeme);
     const innerMemeContainer = document.createElement("div");
     innerMemeContainer.setAttribute(
       "class",
@@ -90,8 +96,8 @@ function renderMemes(memes) {
     const memeNameContainer = document.createElement("div");
     memeNameContainer.innerHTML = meme.name;
     memeNameContainer.setAttribute("class", "text-blue-400 mt-3 text-xl");
-    memeAnchor.append(innerMemeContainer, memeNameContainer);
-    memesContainer.appendChild(memeAnchor);
+    memeContainer.append(innerMemeContainer, memeNameContainer);
+    memesContainer.appendChild(memeContainer);
   });
 }
 
