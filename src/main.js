@@ -108,7 +108,7 @@ async function generateMeme(memeId, mode) {
   });
   const memeImageURL = await response.memeData;
   console.log(memeImageURL);
-  memeImage.innerHTML = `<img src="${memeImageURL}"></img>`;
+  memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image"></img>`;
 }
 
 function renderMemes(memes) {

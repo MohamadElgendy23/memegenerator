@@ -16,6 +16,7 @@ memeRouter.post("/generate", async (req, res) => {
     text1: text1,
   });
   const memeData = await response.data.data;
+  console.log(memeData);
   res.send(201).json(memeData);
 });
 
