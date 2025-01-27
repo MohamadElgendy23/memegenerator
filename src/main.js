@@ -74,6 +74,15 @@ themeToggle.addEventListener("click", () => {
   );
 });
 
+searchInput.addEventListener("input", () => {
+  const searchValue = searchInput.value;
+  if (searchValue) {
+    searchMemes(searchValue).then((memes) => {
+      renderMemes(memes);
+    });
+  }
+});
+
 generateBtn.addEventListener("click", () =>
   generateMeme(memesSelect.value, "generate")
 );
@@ -152,14 +161,14 @@ async function initializeApp() {
   await generateMeme(181913649, "generate"); // initial meme
 }
 
-async function searchMemes() {
+async function searchMemes(query) {
   const response = await axios.post(`${serverURL}/search_memes`, {
     username: "MohamadElgendy",
     password: "Solomon_23",
-    query: searchInput.value,
+    query: query,
   });
   const searchData = await response.searchData;
-  renderMemes(searchData);
+  return searchData;
 }
 
 async function getMemes() {
