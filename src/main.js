@@ -71,7 +71,9 @@ themeToggle.addEventListener("click", () => {
   );
 });
 
-generateBtn.addEventListener("click", () => generateMeme(memesSelect.value));
+generateBtn.addEventListener("click", () =>
+  generateMeme(memesSelect.value, "generate")
+);
 
 function fillSelectOptions(memeEntries) {
   memeEntries.forEach((entry) => {
@@ -82,8 +84,27 @@ function fillSelectOptions(memeEntries) {
   });
 }
 
-function generateMeme(memeId) {
-  
+// mode === generate => generate button, mode === create => div click
+async function generateMeme(memeId, mode) {
+  let topText;
+  let bottomText;
+  if (mode === "generate") {
+    topText = topTextInput.value;
+    bottomText = bottomTextInput.value;
+  }
+  if (mode === "create") {
+    topText = "Top Text";
+    bottomText = "Bottom Text";
+  }
+  const response = await axios.post(`${baseURL}/caption_image`, {
+    template_id: memeId,
+    username: "MohamadElgendy",
+    password: "Solomon_23",
+    text0: topText,
+    text1: bottomText,
+  });
+  const memeData = await response.data.data.url;
+  console.log(memeData);
 }
 
 function renderMemes(memes) {
@@ -94,7 +115,9 @@ function renderMemes(memes) {
       "class",
       "flex items-center flex-col justfiy-center w-30 text-center cursor-pointer"
     );
-    memeContainer.addEventListener("click", () => generateMeme(meme.id));
+    memeContainer.addEventListener("click", () =>
+      generateMeme(meme.id, "create")
+    );
 
     const innerMemeContainer = document.createElement("div");
     innerMemeContainer.setAttribute(
@@ -117,11 +140,12 @@ function renderMemes(memes) {
   });
 }
 
-function initializeApp() {
+async function initializeApp() {
   getMemes().then((memes) => {
     fillSelectOptions(memes.map((meme) => [meme.id, meme.name]));
     renderMemes(memes);
   });
+  await generateMeme(181913649, "generate"); // initial meme
 }
 
 async function getMemes() {
