@@ -33,7 +33,6 @@ document.querySelector("#app").innerHTML = `
           <button class="bg-blue-500 text-black dark:text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl cursor-pointer" id="generate-btn">Generate</button>
         </div>
         <div class="meme-image">
-          
         </div>
       </div>
       <div class="mt-10">
@@ -103,8 +102,9 @@ async function generateMeme(memeId, mode) {
     text0: topText,
     text1: bottomText,
   });
-  const memeData = await response.data.data.url;
-  console.log(memeData);
+  const memeImageURL = await response.data.data.url;
+  console.log(memeImageURL);
+  memeImage.innerHTML = `<img src="${memeImageURL}"></img>`;
 }
 
 function renderMemes(memes) {
