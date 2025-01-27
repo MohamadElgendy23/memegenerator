@@ -16,7 +16,7 @@ document.querySelector("#app").innerHTML = `
     <div class="ml-100 h-screen dark:text-white">
       <div class="flex items-center justify-between w-3/4">
         <h1 class="text-5xl mt-15 mb-10 font-bold dark:text-white">Meme Generator</h1>
-        <input id="search-input" type="text" class="p-2 rounded-sm outline-solid text-sm" placeholder="Search meme..."></input>
+        <input id="search-input" type="text" class="p-2 rounded-sm outline-solid text-sm w-1/5" placeholder="Search meme..."></input>
       </div>
       <hr class="w-3/4">
       <div class="flex items-center gap-3">
