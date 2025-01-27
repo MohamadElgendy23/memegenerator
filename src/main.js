@@ -16,20 +16,25 @@ document.querySelector("#app").innerHTML = `
     <div class="ml-100 h-screen dark:text-white">
       <h1 class="text-5xl mt-15 mb-10 font-bold dark:text-white">Meme Generator</h1>
       <hr class="w-3/4">
-      <div class="w-3/8 gap-3 mt-7">
-        <div class="gap-2 flex flex-col">
-          <label class="text-xl">Meme</label>
-          <select id="memes-select" class="p-2 rounded-sm outline-solid"></select>
+      <div class="flex items-center gap-3">
+        <div class="w-3/8 gap-3 mt-7">
+          <div class="gap-2 flex flex-col">
+            <label class="text-xl">Meme</label>
+            <select id="memes-select" class="p-2 rounded-sm outline-solid"></select>
+          </div>
+          <div class="gap-2 flex flex-col mt-5">
+            <label htmlFor="top-text" class="text-xl">Top Text</label>
+            <input id="top-text" type="text" value="Top Text" class="p-2 rounded-sm outline-solid"></input>
+          </div>
+          <div class="gap-2 flex flex-col mt-5">
+            <label htmlFor="bottom-text" class="text-xl">Bottom Text</label>
+            <input id="bottom-text" type="text" value="Bottom Text" class="p-2 rounded-sm outline-solid"></input>
+          </div>
+          <button class="bg-blue-500 text-black dark:text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl cursor-pointer" id="generate-btn">Generate</button>
         </div>
-        <div class="gap-2 flex flex-col mt-5">
-          <label htmlFor="top-text" class="text-xl">Top Text</label>
-          <input id="top-text" type="text" value="Top Text" class="p-2 rounded-sm outline-solid"></input>
+        <div class="meme-image">
+          
         </div>
-        <div class="gap-2 flex flex-col mt-5">
-          <label htmlFor="bottom-text" class="text-xl">Bottom Text</label>
-          <input id="bottom-text" type="text" value="Bottom Text" class="p-2 rounded-sm outline-solid"></input>
-        </div>
-        <button class="bg-blue-500 text-black dark:text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl" id="generate-btn">Generate</button>
       </div>
       <div class="mt-10">
         <h2 class="text-4xl mb-8">Create Your Own Meme</h2>
@@ -40,9 +45,13 @@ document.querySelector("#app").innerHTML = `
   </div>
 `;
 
+// useful variables
 const themeToggle = document.getElementById("theme-toggle");
 const memesSelect = document.getElementById("memes-select");
+const topTextInput = document.getElementById("top-text");
+const bottomTextInput = document.getElementById("bottom-text");
 const generateBtn = document.getElementById("generate-btn");
+const memeImage = document.getElementById("meme-image");
 const memesContainer = document.getElementById("memes-container");
 
 // add event listener for theme toggle
@@ -62,18 +71,20 @@ themeToggle.addEventListener("click", () => {
   );
 });
 
-generateBtn.addEventListener("click", createMeme);
+generateBtn.addEventListener("click", () => generateMeme(memesSelect.value));
 
-function fillSelectOptions(memeNames) {
-  memeNames.forEach((name) => {
+function fillSelectOptions(memeEntries) {
+  memeEntries.forEach((entry) => {
     const optionElement = document.createElement("option");
-    optionElement.value = name.toLowerCase().replaceAll(" ", ""); // make value the lowercase and space stripped version of name
-    optionElement.text = name;
+    optionElement.value = entry[0];
+    optionElement.text = entry[1];
     memesSelect.appendChild(optionElement);
   });
 }
 
-function createMeme() {}
+function generateMeme(memeId) {
+  
+}
 
 function renderMemes(memes) {
   memesContainer.innerHTML = "";
@@ -83,19 +94,24 @@ function renderMemes(memes) {
       "class",
       "flex items-center flex-col justfiy-center w-30 text-center cursor-pointer"
     );
-    memeContainer.addEventListener("click", createMeme);
+    memeContainer.addEventListener("click", () => generateMeme(meme.id));
+
     const innerMemeContainer = document.createElement("div");
     innerMemeContainer.setAttribute(
       "class",
       "flex items-center flex-col justify-center"
     );
+
     const memeImage = document.createElement("img");
     memeImage.src = meme.url;
     memeImage.setAttribute("class", "w-100");
+
     innerMemeContainer.appendChild(memeImage);
+
     const memeNameContainer = document.createElement("div");
     memeNameContainer.innerHTML = meme.name;
     memeNameContainer.setAttribute("class", "text-blue-400 mt-3 text-xl");
+
     memeContainer.append(innerMemeContainer, memeNameContainer);
     memesContainer.appendChild(memeContainer);
   });
@@ -103,7 +119,7 @@ function renderMemes(memes) {
 
 function initializeApp() {
   getMemes().then((memes) => {
-    fillSelectOptions(memes.map((meme) => meme.name));
+    fillSelectOptions(memes.map((meme) => [meme.id, meme.name]));
     renderMemes(memes);
   });
 }
@@ -111,7 +127,6 @@ function initializeApp() {
 async function getMemes() {
   const response = await axios.get(`${baseURL}/get_memes`);
   const memes = await response.data.data.memes;
-  console.log(memes);
   return memes;
 }
 
