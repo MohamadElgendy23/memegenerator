@@ -2,7 +2,7 @@ import "./style.css";
 import axios from "axios";
 
 const baseURL = "https://api.imgflip.com";
-const serverURL = "https://localhost:3000/meme";
+const serverURL = "http://localhost:3000/meme";
 document.querySelector("#app").innerHTML = `
   <div class="flex justify-center flex-col dark:bg-neutral-800">
     <nav class="relative flex w-full flex-wrap items-center justify-between dark:bg-neutral-600 bg-amber-50 py-2 shadow-dark-mild lg:py-4">
@@ -84,7 +84,9 @@ searchInput.addEventListener("input", () => {
 });
 
 generateBtn.addEventListener("click", () =>
-  generateMeme(memesSelect.value, "generate")
+  generateMeme(memesSelect.value, "generate").then((memeImageURL) => {
+    memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image"></img>`;
+  })
 );
 
 function fillSelectOptions(memeEntries) {
@@ -108,7 +110,7 @@ async function generateMeme(memeId, mode) {
     topText = "Top Text";
     bottomText = "Bottom Text";
   }
-  const response = await axios.post(`${serverURL}/caption_image`, {
+  const response = await axios.post(`${serverURL}/generate`, {
     template_id: memeId,
     username: "MohamadElgendy",
     password: "Solomon_23",
@@ -116,8 +118,7 @@ async function generateMeme(memeId, mode) {
     text1: bottomText,
   });
   const memeImageURL = await response.memeData;
-  console.log(memeImageURL);
-  memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image"></img>`;
+  return memeImageURL;
 }
 
 function renderMemes(memes) {
@@ -153,16 +154,19 @@ function renderMemes(memes) {
   });
 }
 
-async function initializeApp() {
+function initializeApp() {
   getMemes().then((memes) => {
     fillSelectOptions(memes.map((meme) => [meme.id, meme.name]));
     renderMemes(memes);
   });
-  await generateMeme(181913649, "generate"); // initial meme
+  // initial meme
+  generateMeme(181913649, "generate").then((memeImageURL) => {
+    memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image"></img>`;
+  });
 }
 
 async function searchMemes(query) {
-  const response = await axios.post(`${serverURL}/search_memes`, {
+  const response = await axios.post(`${serverURL}/search`, {
     username: "MohamadElgendy",
     password: "Solomon_23",
     query: query,
