@@ -19,7 +19,7 @@ document.querySelector("#app").innerHTML = `
         <input id="search-input" type="text" class="p-2 rounded-sm outline-solid text-sm w-1/5" placeholder="Search meme..."></input>
       </div>
       <hr class="w-3/4">
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-10">
         <div class="w-3/8 gap-3 mt-7">
           <div class="gap-2 flex flex-col">
             <label class="text-xl">Meme</label>
@@ -117,7 +117,8 @@ async function generateMeme(memeId, mode) {
     text0: topText,
     text1: bottomText,
   });
-  const memeImageURL = await response.memeData;
+  const memeImageURL = await response.data;
+  console.log(memeImageURL);
   return memeImageURL;
 }
 

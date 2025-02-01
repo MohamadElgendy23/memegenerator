@@ -8,6 +8,7 @@ const baseURL = "https://api.imgflip.com";
 
 memeRouter.post("/generate", async (req, res) => {
   const { template_id, username, password, text0, text1 } = req.body;
+
   const response = await axios.post(`${baseURL}/caption_image`, {
     template_id: template_id,
     username: username,
