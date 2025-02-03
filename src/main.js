@@ -117,8 +117,7 @@ async function generateMeme(memeId, mode) {
     text0: topText,
     text1: bottomText,
   });
-  const memeImageURL = await response.data;
-  console.log(memeImageURL);
+  const memeImageURL = await response.data.url;
   return memeImageURL;
 }
 
