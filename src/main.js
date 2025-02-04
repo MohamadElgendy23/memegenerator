@@ -19,7 +19,7 @@ document.querySelector("#app").innerHTML = `
         <input id="search-input" type="text" class="p-2 rounded-sm outline-solid text-sm w-1/5" placeholder="Search meme..."></input>
       </div>
       <hr class="w-3/4">
-      <div class="flex items-center gap-12 mt-8">
+      <div class="flex items-center gap-12 mt-8 max-h-80">
         <div class="w-3/8 gap-3">
           <div class="gap-2 flex flex-col">
             <label class="text-xl">Meme</label>
@@ -35,7 +35,7 @@ document.querySelector("#app").innerHTML = `
           </div>
           <button class="bg-blue-500 text-black dark:text-white mt-5 pt-3 pb-3 pl-7 pr-7 rounded-sm text-xl cursor-pointer" id="generate-btn">Generate</button>
         </div>
-        <div id="meme-image" class="flex flex-col justify-center items-center">
+        <div id="meme-image" class="flex flex-col justify-center items-center mt-18">
         </div>
       </div>
       <div class="mt-10">
@@ -85,7 +85,7 @@ searchInput.addEventListener("input", () => {
 
 generateBtn.addEventListener("click", () =>
   generateMeme(memesSelect.value, "generate").then((memeImageURL) => {
-    memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image"></img>`;
+    memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image" class="max-h-100"></img>`;
   })
 );
 
@@ -119,7 +119,6 @@ async function generateMeme(memeId, mode) {
     text1: bottomText,
   });
   const memeImageURL = await response.data.url;
-
   return memeImageURL;
 }
 
@@ -132,7 +131,9 @@ function renderMemes(memes) {
       "flex items-center flex-col justfiy-center w-30 text-center cursor-pointer"
     );
     memeContainer.addEventListener("click", () =>
-      generateMeme(meme.id, "create")
+      generateMeme(meme.id, "create").then((memeImageURL) => {
+        memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image" class="max-h-100"></img>`;
+      })
     );
 
     const innerMemeContainer = document.createElement("div");
@@ -163,7 +164,7 @@ function initializeApp() {
   });
   // initial meme
   generateMeme(181913649, "generate").then((memeImageURL) => {
-    memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image"></img>`;
+    memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image" class="max-h-100"></img>`;
   });
 }
 
