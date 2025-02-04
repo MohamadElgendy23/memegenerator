@@ -650,6 +650,9 @@
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
+  .h-80 {
+    height: calc(var(--spacing) * 80);
+  }
   .h-screen {
     height: 100vh;
   }
@@ -680,6 +683,9 @@
   .max-h-100 {
     max-height: calc(var(--spacing) * 100);
   }
+  .min-h-screen {
+    min-height: 100vh;
+  }
   .w-0 {
     width: calc(var(--spacing) * 0);
   }
@@ -707,9 +713,6 @@
   .w-10 {
     width: calc(var(--spacing) * 10);
   }
-  .w-100 {
-    width: calc(var(--spacing) * 100);
-  }
   .w-15 {
     width: calc(var(--spacing) * 15);
   }
@@ -733,6 +736,9 @@
   }
   .w-80 {
     width: calc(var(--spacing) * 80);
+  }
+  .w-100 {
+    width: calc(var(--spacing) * 100);
   }
   .w-200 {
     width: calc(var(--spacing) * 200);

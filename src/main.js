@@ -13,7 +13,7 @@ document.querySelector("#app").innerHTML = `
         <button id="theme-toggle" class="bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-md text-black dark:text-white">Toggle Dark Mode</button>
       </div>
     </nav>
-    <div class="ml-100 h-screen dark:text-white">
+    <div class="ml-100 min-h-screen dark:text-white">
       <div class="flex items-center justify-between w-3/4">
         <h1 class="text-5xl mt-15 mb-10 font-bold dark:text-white">Meme Generator</h1>
         <input id="search-input" type="text" class="p-2 rounded-sm outline-solid text-sm w-1/5" placeholder="Search meme..."></input>
@@ -76,11 +76,9 @@ themeToggle.addEventListener("click", () => {
 
 searchInput.addEventListener("input", () => {
   const searchValue = searchInput.value;
-  if (searchValue) {
-    searchMemes(searchValue).then((memes) => {
-      renderMemes(memes);
-    });
-  }
+  searchMemes(searchValue).then((memes) => {
+    renderMemes(memes);
+  });
 });
 
 generateBtn.addEventListener("click", () =>
