@@ -22,18 +22,4 @@ memeRouter.post("/generate", async (req, res) => {
   res.status(201).send(memeData);
 });
 
-memeRouter.post("/search", async (req, res) => {
-  const { username, password, query } = req.body;
-
-  const form = new FormData();
-  form.append("username", username);
-  form.append("password", password);
-  form.append("query", query);
-
-  const response = await axios.post(`${baseURL}/search_memes`, form);
-  const searchData = await response.data;
-  console.log(searchData);
-  res.status(201).send(searchData);
-});
-
 module.exports = memeRouter;
