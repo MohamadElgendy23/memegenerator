@@ -16,7 +16,6 @@ document.querySelector("#app").innerHTML = `
     <div class="ml-100 min-h-screen dark:text-white">
       <div class="flex items-center justify-between w-3/4">
         <h1 class="text-5xl mt-15 mb-10 font-bold dark:text-white">Meme Generator</h1>
-        <input id="search-input" type="text" class="p-2 rounded-sm outline-solid text-sm w-1/5" placeholder="Search meme..."></input>
       </div>
       <hr class="w-3/4">
       <div class="flex items-center gap-12 mt-8 max-h-80">
@@ -49,12 +48,11 @@ document.querySelector("#app").innerHTML = `
 
 // useful variables
 const themeToggle = document.getElementById("theme-toggle");
-const searchInput = document.getElementById("search-input");
 const memesSelect = document.getElementById("memes-select");
 const topTextInput = document.getElementById("top-text");
 const bottomTextInput = document.getElementById("bottom-text");
 const generateBtn = document.getElementById("generate-btn");
-const memeImage = document.getElementById("meme-image");
+const memeImageDiv = document.getElementById("meme-image");
 const memesContainer = document.getElementById("memes-container");
 
 // add event listener for theme toggle
@@ -74,16 +72,9 @@ themeToggle.addEventListener("click", () => {
   );
 });
 
-searchInput.addEventListener("input", () => {
-  const searchValue = searchInput.value;
-  searchMemes(searchValue).then((memes) => {
-    renderMemes(memes);
-  });
-});
-
 generateBtn.addEventListener("click", () =>
   generateMeme(memesSelect.value, "generate").then((memeImageURL) => {
-    memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image" class="max-h-100"></img>`;
+    memeImageDiv.innerHTML = `<img src="${memeImageURL}" alt="meme-image" class="max-h-100"></img>`;
   })
 );
 
@@ -128,11 +119,11 @@ function renderMemes(memes) {
       "class",
       "flex items-center flex-col justfiy-center w-30 text-center cursor-pointer"
     );
-    memeContainer.addEventListener("click", () =>
+    memeContainer.addEventListener("click", () => {
       generateMeme(meme.id, "create").then((memeImageURL) => {
-        memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image" class="max-h-100"></img>`;
-      })
-    );
+        memeImageDiv.innerHTML = `<img src="${memeImageURL}" alt="meme-image" class="max-h-100"></img>`;
+      });
+    });
 
     const innerMemeContainer = document.createElement("div");
     innerMemeContainer.setAttribute(
@@ -151,6 +142,7 @@ function renderMemes(memes) {
     memeNameContainer.setAttribute("class", "text-blue-400 mt-3 text-xl");
 
     memeContainer.append(innerMemeContainer, memeNameContainer);
+
     memesContainer.appendChild(memeContainer);
   });
 }
@@ -162,18 +154,8 @@ function initializeApp() {
   });
   // initial meme
   generateMeme(181913649, "generate").then((memeImageURL) => {
-    memeImage.innerHTML = `<img src="${memeImageURL}" alt="meme-image" class="max-h-100"></img>`;
+    memeImageDiv.innerHTML = `<img src="${memeImageURL}" alt="meme-image" class="max-h-100"></img>`;
   });
-}
-
-async function searchMemes(query) {
-  const response = await axios.post(`${serverURL}/search`, {
-    username: "MohamadElgendy",
-    password: "Solomon_23",
-    query: query,
-  });
-  const searchData = await response.searchData;
-  return searchData;
 }
 
 async function getMemes() {
