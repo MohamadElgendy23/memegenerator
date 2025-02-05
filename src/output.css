@@ -1000,6 +1000,11 @@
       }
     }
   }
+  .sm\:flex {
+    @media (width >= 40rem) {
+      display: flex;
+    }
+  }
   .sm\:h-screen {
     @media (width >= 40rem) {
       height: 100vh;
@@ -1018,6 +1023,11 @@
   .sm\:w-screen {
     @media (width >= 40rem) {
       width: 100vw;
+    }
+  }
+  .sm\:flex-col {
+    @media (width >= 40rem) {
+      flex-direction: column;
     }
   }
   .md\:h-screen {
