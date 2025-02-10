@@ -102,8 +102,6 @@ async function generateMeme(memeId, mode) {
 
   const response = await axios.post(`${serverURL}/generate`, {
     template_id: memeId,
-    username: "MohamadElgendy",
-    password: "Solomon_23",
     text0: topText,
     text1: bottomText,
   });
