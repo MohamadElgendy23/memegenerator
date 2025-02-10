@@ -97,7 +97,8 @@ async function generateMeme(memeId) {
   return memeImageURL;
 }
 
-function renderMemes(memes) {
+function render(memes) {
+  fillSelectOptions(memes.map((meme) => [meme.id, meme.name]));
   memesContainer.innerHTML = "";
   memes.forEach((meme) => {
     const memeContainer = document.createElement("div");
@@ -136,8 +137,7 @@ function renderMemes(memes) {
 
 function initializeApp() {
   getMemes().then((memes) => {
-    fillSelectOptions(memes.map((meme) => [meme.id, meme.name]));
-    renderMemes(memes);
+    render(memes);
   });
   // initial meme
   generateMeme(181913649).then((memeImageURL) => {
