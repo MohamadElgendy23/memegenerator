@@ -1,2 +1,6 @@
 @import "tailwindcss";
-@variant dark (&:where(.dark, .dark *));
+
+#memes-container {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+
+}
