@@ -40,7 +40,7 @@ document.querySelector("#app").innerHTML = `
       <div class="mt-10">
         <h2 class="text-4xl mb-8">Create Your Own Meme</h2>
         <hr class="w-3/4">
-        <div id="memes-container" class="grid mt-10 w-3/4 gap-10"></div>
+        <div id="memes-container" class="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] mt-10 w-3/4 gap-10"></div>
       </div>
     </div>
   </div>
